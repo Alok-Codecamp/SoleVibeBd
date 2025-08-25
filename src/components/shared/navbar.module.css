@@ -1,0 +1,36 @@
+.navContainer{
+    background-color: rgba(10,10,10,0.7);
+}
+
+.navBar{
+    transform: translateX(-100%);
+    animation-fill-mode: forwards;
+}
+
+.navBarShow{
+       animation: slideIn 0.5s ease-out forwards;
+}
+.navBarHide{
+animation: slideOut 0.5s ease-out forwards;
+}
+@keyframes slideIn{
+from{
+    opacity: 0;
+    transform: translateX(-10%);
+}
+to{
+    opacity: 1;
+    transform: translateX(68%);
+}
+}
+
+@keyframes slideOut{
+    from{
+        opacity: 1;
+        transform: translateX(68%);
+    }
+    to{
+        opacity: 0;
+        transform: translateX(-10%);
+    }
+}
