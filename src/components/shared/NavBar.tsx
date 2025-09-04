@@ -15,24 +15,48 @@ const NavBar = () => {
     const [open,setOpen] = useState<boolean>(false);
     const [closed,setClosed] = useState<boolean>(false);
       const navRef = useRef<HTMLDivElement|null>(null);
+      const cartRef = useRef<HTMLDivElement|null>(null);
+      const [openCart,setOpenCart] = useState<boolean>(false)
+      const [closeCart,setCloseCart] = useState<boolean>();
     const pathName = usePathname();
 
     useEffect(()=>{
+        
         const handleClickOutside =(e:MouseEvent)=>{
             if(navRef.current && !navRef.current.contains(e.target as Node)&&open){
                 closeNav();
+                
             }
         }
         document.addEventListener("mousedown",handleClickOutside)
          return () => document.removeEventListener("mousedown", handleClickOutside);
     },[open])
-
+    
+ useEffect(()=>{
+        const handleClickOutside =(e:MouseEvent)=>{
+            if(cartRef.current && !cartRef.current.contains(e.target as Node)&&openCart){
+                closeCartBar();
+                
+            }
+        }
+        document.addEventListener("mousedown",handleClickOutside)
+         return () => document.removeEventListener("mousedown", handleClickOutside);
+    },[openCart])
   const closeNav = () => {
     if (open) {
         setClosed(true); // start slide-out animation
         setTimeout(() => {
             setOpen(false); // remove element after animation ends
             setClosed(false); // reset closed state
+        }, 500); // match your animation duration
+    }
+};
+  const closeCartBar = () => {
+    if (openCart) {
+        setCloseCart(true); // start slide-out animation
+        setTimeout(() => {
+            setOpenCart(false); // remove element after animation ends
+            setCloseCart(false); // reset closed state
         }, 500); // match your animation duration
     }
 };
@@ -63,7 +87,9 @@ const NavBar = () => {
             <button onClick={()=>setOpen(!open)}  className=''><GiHamburgerMenu size={22}/></button>
                 <Image src="/logo.png" alt='logo' height={100} width={180}/>
                 
-            <MdOutlineShoppingCart color='' size={32} className=''/>
+            <button className='border-2 border-red-900' onClick={()=>setOpenCart(!openCart)}>
+    <MdOutlineShoppingCart size={32} className='mx-2'/>
+</button>
         </div>
 
         <nav className='hidden lg:flex justify-between items-center mx-20 my-4'>
@@ -82,16 +108,18 @@ const NavBar = () => {
             </ul>
             <div className='flex justify-center items-center'>
                 <UserRound  size={32} className='mx-2'/>
-<MdOutlineShoppingCart size={32} className='mx-2'/>
+<button className='border-2 border-red-900' onClick={()=>setOpenCart(!openCart)}>
+    <MdOutlineShoppingCart size={32} className='mx-2'/>
+</button>
 
             </div>
         </nav>
         {/* mobile menu */}
         
         {
-            open&&<div className={`${styles.navContainer} ${closed?styles.navBarHide:styles.navBarShow} fixed inset-0 bg-black/40 backdrop:blur-lg flex justify-start items-center z-10  `} onClick={closeNav}>
-                <div className={`${styles.navBar} bg-gray-50 h-screen w-64 px-6 py-10`} onClick={(e)=>e.stopPropagation()}>
-                    <CircleX  className='absolute top-2 right-32' size={20}/>
+            open&&<div className={`bg-black/60 fixed inset-0`} onClick={closeNav}>
+                <div className={`${closed?styles.navBarHide:styles.navBarShow} bg-gray-50 h-screen w-64 px-4 py-10 border`} onClick={(e)=>e.stopPropagation()}>
+                    <CircleX  className='absolute top-2 right-10' size={20}/>
                     <div className='flex justify-center items-center mt-4'>
                 <Input placeholder='Search For Product' className='placeholder:text-gray-800 border border-gray-900'/>
                 <button className='-ml-5'><GrSearch /></button>
@@ -106,7 +134,24 @@ const NavBar = () => {
                 </div>
             </div>
         }
-        
+         {
+openCart&&<div className={`fixed inset-0 bg-black/40`} onClick={closeCartBar}>
+                <div className={`${closeCart?styles.cartHide:styles.cartShow} bg-gray-50 h-screen w-64 px-4 py-10 border fixed right-0`} onClick={(e)=>e.stopPropagation()}>
+                    <CircleX  className='absolute top-2 right-10' size={20}/>
+                    <div className='flex justify-center items-center mt-4'>
+                <Input placeholder='Search For Product' className='placeholder:text-gray-800 border border-gray-900'/>
+                <button className='-ml-5'><GrSearch /></button>
+            </div>
+            <ul  className='text-sm'>
+                <li className='my-4'><Link href={'/'}>Home</Link></li>
+                <li className='my-4'><Link href={'/all-products'}>All Products</Link></li>
+                <li className='my-4'><Link href={'/all-products'}>Premium Quality</Link></li>
+                <li className='my-4'><Link href={'/all-products'}>50% Discount</Link></li>
+                <li className='my-4'><Link href={'/size-chart'}>Size Chart</Link></li>
+            </ul>
+                </div>
+            </div>
+        } 
     </div>
   )
 }

@@ -1,36 +1,49 @@
-.navContainer{
-    background-color: rgba(10,10,10,0.7);
+/* css for nav bar  */
+@keyframes slideIn{
+    0%{
+        transform: translateX(-100%);
+    }
+    100%{
+        transform: translateX(0%);
+    }
 }
-
-.navBar{
-    transform: translateX(-100%);
-    animation-fill-mode: forwards;
+@keyframes slideOut{
+    0%{
+        transform: translateX(0%);
+    }
+    100%{
+        transform: translateX(-100%);
+    }
 }
 
 .navBarShow{
-       animation: slideIn 0.5s ease-out forwards;
+    animation: slideIn 0.5s ease 0.0s 1 normal none;
 }
 .navBarHide{
-animation: slideOut 0.5s ease-out forwards;
-}
-@keyframes slideIn{
-from{
-    opacity: 0;
-    transform: translateX(-10%);
-}
-to{
-    opacity: 1;
-    transform: translateX(68%);
-}
+    animation: slideOut 0.5s ease 0.0s 1 normal none;
 }
 
-@keyframes slideOut{
-    from{
-        opacity: 1;
-        transform: translateX(68%);
+/* cass for cart  */
+@keyframes slideInCart{
+    0%{
+        transform: translateX(100%);
     }
-    to{
-        opacity: 0;
-        transform: translateX(-10%);
+    100%{
+        transform: translateX(0%);
     }
+}
+@keyframes slideOutCart{
+    0%{
+        transform: translateX(0%);
+    }
+    100%{
+        transform: translateX(100%);
+    }
+}
+
+.cartShow{
+    animation: slideInCart 0.5s ease 0.0s 1 normal none;
+}
+.cartHide{
+    animation: slideOutCart 0.5s ease 0.0s 1 normal none;
 }
